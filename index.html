@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Sayon Institute - Secure Online Exam</title>
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="theme-color" content="#2b0f3f" />
+</head>
+<body>
+    <div class="app">
+        <header class="topbar glass">
+            <div class="brand">
+                <img id="instituteLogo" src="./public/images/sii-logo-s.png" alt="Sayon Institute Logo" />
+                <div>
+                    <h1>Sayon Institute Of Innovation</h1>
+                    <p class="tagline">Empowering - Youth • Inspiring Innovation</p>
+                </div>
+            </div>
+            <div class="top-actions">
+                <div id="timeNow" class="timeNow">--:--</div>
+            </div>
+        </header>
+
+<main class="container">
+  <section class="panel glass" id="authPanel">
+    <div class="tabs">
+      <button id="studentTab" class="tab active">Student</button>
+      <button id="resultTab" class="tab">Results</button>
+      <button id="adminTab" class="tab">Admin</button>
+    </div>
+
+    <div id="studentForm" class="formview">
+      <h2>Student Login</h2>
+      <div class="formrow">
+        <label>Student ID (SID)</label>
+        <input id="sid" inputmode="text" autocomplete="off" />
+      </div>
+      <div class="formrow">
+        <label>Roll Number</label>
+        <input id="rollNo" autocomplete="off" />
+      </div>
+      <div class="formrow actions">
+        <button id="studentLoginBtn" class="btn primary">Enter Exam Portal</button>
+      </div>
+      <div class="small muted">Make sure your camera & mic & Meet are enabled.</div>
+    </div>
+
+    <div id="adminForm" class="formview hidden">
+      <h2>Admin Login</h2>
+      <div class="formrow">
+        <label>Username</label>
+        <input id="adminUser" autocomplete="username" />
+      </div>
+      <div class="formrow">
+        <label>Password</label>
+        <input id="adminPass" type="password" autocomplete="current-password" />
+      </div>
+      <div class="formrow actions">
+        <button id="adminLoginBtn" class="btn accent">Open Dashboard</button>
+      </div>
+    </div>
+    <div id="resultForm" class="formview hidden">
+        <h2>Student Scorecard</h2>
+        <div class="formrow">
+          <label>Student ID (SID)</label>
+          <input id="rSid" inputmode="text" autocomplete="off" placeholder="Enter SID" />
+        </div>
+        <div class="formrow">
+          <label>Roll Number</label>
+          <input id="rRollNo" autocomplete="off" placeholder="Enter Roll Number" />
+        </div>
+        <div class="formrow actions">
+          <button id="viewResultBtn" class="btn gold">View Result</button>
+        </div>
+        
+        <div id="scorecardContainer" class="hidden">
+           </div>
+      </div>
+  </section>
+
+  <!-- Student Exam Area -->
+  <section class="panel glass hidden" id="examPanel">
+      <div class="exam-header">
+          <div class="exam-info">
+                <p class="small">SID: <span id="userSID" style="color:var(--accent)">-</span> | Roll: <span id="userRoll" style="color:var(--accent)">-</span> | Class: <span id="userClass" style="color:var(--accent)">-</span></p>
+                <style>
+                #userRoll { display: inline !important; visibility: visible !important; }
+                </style>
+              <h2 id="examTitle">Loading Exam...</h2>
+              <p id="examMeta" class="small muted"></p>
+          </div>
+          <div id="timer" class="timer floating">00:00:00</div>
+      </div>
+      
+      <div class="exam-body">
+          <div class="viewer-card glass">
+              <h4>Question Paper</h4> 
+              <div class="viewer-toolbar">
+                  <button id="startExamBtn" class="btn primary">Start Exam</button>
+                  <div class="page-controls">
+                      <button id="prevBtn" class="btn-icon">↑ Prev</button>
+                      <span id="pageNum">Page 1</span>
+                      <button id="nextBtn" class="btn-icon">Next ↓</button>
+                  </div>
+
+                  <div class="zoom-controls">\
+                      
+                      <button id="zoomOut" class="btn-icon">−</button>
+                      <button id="zoomIn" class="btn-icon">+</button>
+                  </div>
+                  <button id="submitBtn" class="btn danger">Submit</button>
+              </div>              
+              <div id="pdfWrapper" style="width:100%; height:75vh; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; background:#525659; border: 2px solid var(--accent);">
+                  <iframe id="pdfViewer" src="" style="width:100%; height: 5000px; border:none; display: block;"></iframe>
+              </div>
+              
+              <div id="mcqWrapper" class="hidden" style="width:100%; flex: 1; min-height: 0; overflow-y: auto; padding: 20px; background: rgba(0,0,0,0.2); scroll-behavior: smooth;">
+                  <form id="mcqForm">
+                      </form>
+              </div>
+          </div>
+  
+          <aside class="meet-card glass">
+              <h4>Invigilator Meet</h4>
+              <div class="meet-area">
+                  <button id="openMeet" class="btn">Open Meet (Mandatory)</button>
+                  <div id="meetStatus" class="small muted">Not opened</div>
+              </div>
+              <div class="live-stats">
+                  <h5>Warnings: <span id="warningCount" class="warning-count">0</span></h5>
+                  <div id="activityLog" class="activity-list"></div>
+              </div>
+          </aside>
+      </div>
+  </section>
+
+  <!-- Admin Dashboard -->
+  <section class="panel glass hidden" id="adminPanel">
+    <div class="admin-header">
+      <h2>Admin Dashboard</h2>
+      <div class="admin-actions">
+        <button id="refreshAdmin" class="btn">Refresh</button>
+      </div>
+    </div>
+
+    <div class="admin-body">
+      <div class="cards">
+        <div class="card glass">
+          <h4>Students</h4>
+          <div id="adminStudents" class="table"></div>
+        </div>
+        <div class="card glass">
+          <h4>Live Submissions</h4>
+          <div id="adminSubmissions" class="table"></div>
+        </div>
+        <div class="card glass">
+          <h4>Warnings</h4>
+          <div id="adminWarnings" class="table"></div>
+        </div>
+        <div class="card glass">
+          <h4>Activity Logs</h4>
+          <div id="adminActivity" class="table"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="notif" class="notif hidden" role="status" aria-live="polite"></div>
+</div> <script src="script.js"></script> </body> </html> 
