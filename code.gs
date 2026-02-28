@@ -1,8 +1,8 @@
 /* ===== code.gs (Google Apps Script) ===== */
 
 /* --- CONFIGURATION --- */
-const SPREADSHEET_ID = "1v-rJ3rv3SUy0v7DxIFZOnSE8csQjy79meDL9SnofaJw"; // <--- VERIFY THIS ID
-const API_KEY = "Sayon*024"; // <--- MUST MATCH SCRIPT.JS
+const SPREADSHEET_ID = "Id_of_your_scheet"; 
+const API_KEY = "You_API_KEY"; // <--- MUST MATCH SCRIPT.JS
 
 
 
